@@ -2,7 +2,10 @@
 body {
   background-color: #E8ECEF;
 }
-
+p {
+  text-align: center;
+  font-size: 0.75rem;
+}
 .centered {
     padding-top: 200px;
     text-align: center;
