@@ -1,10 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const encrypt = require('mongoose-encryption');
+const enc = require('./enc.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+console.log(process.env.API_KEY);
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -24,6 +29,10 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 });
+
+
+//encryption added before model, as it uses schema, where password is decripted using a key from outside file (.gitignore)
+userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ['password'] });
 
 const User = mongoose.model("User", userSchema);
 
@@ -74,7 +83,7 @@ app.post("/login", function(req, res) {
       }
     }
   });
-  
+
 });
 
 
